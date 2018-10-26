@@ -4,6 +4,8 @@ const Topic = db.Topic;
 module.exports = {
     create,
     getAll,
+    getByName,
+    createMessage,
 };
 
 async function create(topicParam) {
@@ -23,14 +25,26 @@ async function create(topicParam) {
       }
     );
 
-    console.log(topic);
-
     await topic.save();
 }
 
+async function createMessage(messageParam) {
+
+  let message = {
+    createdBy: messageParam.userName,
+    content: messageParam.message,
+  }
+
+  await Topic.findOneAndUpdate({topicName: messageParam.topicName}, {$push: {messageList: message}});
+
+}
+
 async function getAll() {
-    console.log('getAll_service');
     let topics = await Topic.find();
-    console.log(topics);
     return topics;
+}
+
+async function getByName(topicName) {
+    let topic = await Topic.findOne({ topicName: topicName })
+    return topic;
 }

@@ -13,7 +13,6 @@
   </div>
 </nav>
 
-<hr class="my-4">
 
 <div class="table-responsive">
   <table class="table" *ngIf='topics && topics.length'>
@@ -30,7 +29,7 @@
         <td><a [routerLink]="['/topic', topic.topicName]">{{topic.topicName}}</a></td>
         <td>{{topic.messageList.length}}</td>
         <td>{{topic.createdBy}}</td>
-        <td>{{topic.createdDate}}</td>
+        <td>{{topic.createdDate | date:"MM/dd/yyyy 'at' h:mma"}}</td>
       </tr>
     </tbody>
   </table>

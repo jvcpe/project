@@ -1,4 +1,4 @@
-import IMessage from './message';
+import { IMessage } from './message';
 
 export interface ITopic {
   topicName: string;

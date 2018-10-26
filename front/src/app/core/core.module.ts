@@ -11,6 +11,8 @@ import { CoreComponent }  from './core.component';
 import { TopicListComponent } from './topic-list/topic-list.component';
 import { TopicCreateComponent } from './topic-create/topic-create.component';
 import { TopicDetailComponent } from './topic-detail/topic-detail.component';
+import { MessageComponent } from './message/message.component';
+import { NewlinePipe } from '../_helpers';
 
 @NgModule({
     imports: [
@@ -29,6 +31,8 @@ import { TopicDetailComponent } from './topic-detail/topic-detail.component';
         TopicListComponent,
         TopicCreateComponent,
         TopicDetailComponent,
+        MessageComponent,
+        NewlinePipe,
     ],
 })
 

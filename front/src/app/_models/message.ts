@@ -1,4 +1,4 @@
-export default interface IMessage{
+export interface IMessage{
   createdBy: string;
   createdDate: Date;
   lastEditedDate: Date;

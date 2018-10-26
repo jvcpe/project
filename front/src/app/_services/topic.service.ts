@@ -14,7 +14,7 @@ export class TopicService {
 
   getTopics(): Observable<ITopic[]> {
     return this.http.get<ITopic[]>(`${config.apiUrl}/topics/getAll`).pipe(
-      tap(data => console.log('All: '+ JSON.stringify(data))),
+      tap(data => JSON.stringify(data)),
       catchError(this.handleError)
     );
   }
@@ -30,14 +30,21 @@ export class TopicService {
   }
 
   getTopic(topicName: string): Observable<ITopic> {
-
-    let httpParams = new HttpParams();
-    let params = httpParams.append(name, topicName);
-
-    return this.http.get<ITopic>(`${config.apiUrl}/topics/getTopic`, {params: params}).pipe(
-      tap(message => console.log('All message: '+ JSON.stringify(message))),
+    let topicNameSafe = topicName.replace("?", "%3F");
+    return this.http.get<ITopic>(`${config.apiUrl}/topics/${topicNameSafe}`).pipe(
+      tap(data => JSON.stringify(data)),
       catchError(this.handleError)
     );
+  }
+
+  createMessage(topicName: string, message: string, userName: string) {
+      return this.http.post<any>(`${config.apiUrl}/topics/createMessage`, {
+        topicName: topicName,
+        message: message,
+        userName: userName,
+      }).pipe(
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {

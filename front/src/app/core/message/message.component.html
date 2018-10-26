@@ -1,0 +1,8 @@
+<div class="card mb-3">
+  <div class="card-header">
+    <p>Posted by {{message.createdBy}} on {{message.createdDate | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+  </div>
+  <div class="card-body">
+    <span class="line-breaker" [innerHTML]="message.content | newline"></span>
+  </div>
+</div>
