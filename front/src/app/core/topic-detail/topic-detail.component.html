@@ -6,7 +6,7 @@
   </div>
   <div class="card-body">
     <div *ngFor="let message of topic.messageList">
-      <message [message]="message"></message>
+      <message [message]="message" [topicName]="topic.topicName" (notify)='onNotify($event)'></message>
     </div>
     <hr class="my-4">
     <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">

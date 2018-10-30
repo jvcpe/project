@@ -22,8 +22,8 @@ export class TopicDetailComponent implements OnInit {
   }
 
   messageForm: FormGroup;
-  loading = false;
-  submitted = false;
+  loading: boolean = false;
+  submitted: boolean = false;
 
   currentUser: User;
   topicName: string = '';
@@ -51,6 +51,12 @@ export class TopicDetailComponent implements OnInit {
 
   onBack(): void {
     this.router.navigate(['/listTopic']);
+  }
+
+  onNotify(reload: boolean) {
+    if(reload){
+      this.getTopic();
+    }
   }
 
   get f() { return this.messageForm.controls; }

@@ -47,6 +47,16 @@ export class TopicService {
       );
   }
 
+  modifyMessage(topicName: string, content: string, messageId: string){
+    return this.http.put<any>(`${config.apiUrl}/topics/message`, {
+      topicName: topicName,
+      content: content,
+      messageId: messageId,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {

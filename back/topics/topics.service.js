@@ -6,6 +6,7 @@ module.exports = {
     getAll,
     getByName,
     createMessage,
+    update,
 };
 
 async function create(topicParam) {
@@ -47,4 +48,23 @@ async function getAll() {
 async function getByName(topicName) {
     let topic = await Topic.findOne({ topicName: topicName })
     return topic;
+}
+
+async function update(messageParam) {
+  let date = Date.now().valueOf();
+  console.log(date);
+  console.log(JSON.stringify(messageParam));
+  
+  await Topic.findOneAndUpdate(
+    {
+      "topicName": messageParam.topicName,
+      "messageList._id": messageParam.messageId
+    },
+    {
+      "$set": {
+        "messageList.$.content": messageParam.content,
+        "messageList.$.lastEditedDate": date,
+      }
+    }
+  );
 }

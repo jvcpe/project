@@ -7,8 +7,8 @@ router.post('/createTopic', createTopic);
 router.get('/getAll', getAll);
 router.post('/createMessage', createMessage);
 router.get('/:name', getByName);
-router.put('/:id', update);
-router.delete('/:id', _delete);
+router.put('/message', update);
+router.delete('/message', _delete);
 
 module.exports = router;
 
@@ -37,13 +37,13 @@ function getByName(req, res, next) {
 }
 
 function update(req, res, next) {
-    topicService.update(req.params.id, req.body)
+    topicService.update(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-    topicService.delete(req.params.id)
+    topicService.delete(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }

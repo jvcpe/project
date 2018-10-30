@@ -5,7 +5,8 @@ import { MatCardModule, MatDialogModule, MatButtonModule } from '@angular/materi
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { routing }        from './core.routing';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule }    from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 import { CoreComponent }  from './core.component';
 import { TopicListComponent } from './topic-list/topic-list.component';
@@ -25,6 +26,7 @@ import { NewlinePipe } from '../_helpers';
         MatToolbarModule,
         FormsModule,
         ReactiveFormsModule,
+        MatIconModule,
     ],
     declarations: [
         CoreComponent,

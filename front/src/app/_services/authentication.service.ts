@@ -17,6 +17,11 @@ export class AuthenticationService {
             }));
     }
 
+    getExpiration() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      return currentUser.token.exp;
+    }
+
     logout() {
         localStorage.removeItem('currentUser');
     }
