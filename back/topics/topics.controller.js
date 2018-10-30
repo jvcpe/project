@@ -25,7 +25,7 @@ function getAll(req, res, next) {
 }
 
 function createMessage(req, res, next) {
-    topicService.createMessage(req.body)
+    topicService.createMessage(req)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
