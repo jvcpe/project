@@ -43,7 +43,7 @@ function update(req, res, next) {
 }
 
 function _delete(req, res, next) {
-    topicService.delete(req.body)
+    topicService._delete(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }

@@ -1,6 +1,7 @@
 const db = require('_helpers/db');
 const Topic = db.Topic;
 const jwt = require('jsonwebtoken');
+const userService = require('../users/user.service');
 
 module.exports = {
     create,
@@ -8,6 +9,7 @@ module.exports = {
     getByName,
     createMessage,
     update,
+    _delete,
 };
 
 async function create(topicParam) {
@@ -30,14 +32,32 @@ async function create(topicParam) {
     await topic.save();
 }
 
+async function _delete(req) {
+  let decodedToken = jwt.decode(req.headers.authorization.replace("Bearer ",""));
+  const user = await userService.getById(decodedToken.subject);
+
+  messageParam = req.body;
+
+  const topic = await Topic.findOne(
+    {
+      "topicName": messageParam.topicName,
+      "messageList._id": messageParam.messageId
+    }
+  );
+
+  topic.messageList.pull(messageParam.messageId);
+  await topic.save();
+}
+
 async function createMessage(req) {
   let decodedToken = jwt.decode(req.headers.authorization.replace("Bearer ",""));
 
   const user = await userService.getById(decodedToken.subject);
 
   messageParam = req.body;
+
   let message = {
-    createdBy: messageParam.userName,
+    createdBy: user.username,
     content: messageParam.message,
   }
 
@@ -57,8 +77,6 @@ async function getByName(topicName) {
 
 async function update(messageParam) {
   let date = Date.now().valueOf();
-  console.log(date);
-  console.log(JSON.stringify(messageParam));
 
   await Topic.findOneAndUpdate(
     {

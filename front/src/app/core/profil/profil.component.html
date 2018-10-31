@@ -1,0 +1,56 @@
+<p class="text-center lead">Hi {{user.username}}  ( <a [routerLink]="['/profil']">Profil</a> | <a [routerLink]="['/login']">Logout</a> )</p>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <nav class="navbar">
+      <p>Profil de {{user.username}}</p>
+    </nav>
+  </div>
+  <div class="card-body">
+    <ul class="list-group" *ngIf="!modification">
+      <li class="list-group-item">Profil Image : <img [src]="image"></li>
+      <li class="list-group-item">First Name : {{user.firstName}}</li>
+      <li class="list-group-item">Last Name : {{user.lastName}}</li>
+      <li class="list-group-item">Username : {{user.username}}</li>
+    </ul>
+
+    <form *ngIf="modification" [formGroup]="modificationForm" class="form">
+      <label for="modificationProfilImage">Image : </label>
+      <input type="file" formControlName="modificationProfilImage" class="form-control form-group" (change)="onFileChanged($event)" />
+      <div *ngIf="submitted && f.modificationProfilImage.errors" class="invalid-feedback">
+          <div *ngIf="f.modificationProfilFirstName.errors.required">A file is required</div>
+      </div>
+
+      <label for="modificationProfilFirstName">First Name : </label>
+      <input formControlName="modificationProfilFirstName" class="form-control form-group" />
+      <div *ngIf="submitted && f.modificationProfilFirstName.errors" class="invalid-feedback">
+          <div *ngIf="f.modificationProfilFirstName.errors.required">A name is required</div>
+      </div>
+
+      <label for="modificationProfilLastName">Last Name : </label>
+      <input formControlName="modificationProfilLastName" class="form-control form-group" />
+      <div *ngIf="submitted && f.modificationProfilLastName.errors" class="invalid-feedback">
+          <div *ngIf="f.modificationProfilLastName.errors.required">A name is required</div>
+      </div>
+
+      <label for="modificationProfilUsername">Username : </label>
+      <input formControlName="modificationProfilUsername" class="form-control form-group" />
+      <div *ngIf="submitted && f.modificationProfilUsername.errors" class="invalid-feedback">
+          <div *ngIf="f.modificationProfilUsername.errors.required">A username is required</div>
+      </div>
+
+      <div *ngIf="modification" class="form-group">
+        <button class="btn btn-outline-warning" (click)="onModification()">
+          Modify
+        </button>
+        <button class="btn btn-outline-secondary" (click)="toggleModification()">
+          Cancel
+        </button>
+      </div>
+    </form>
+
+  </div>
+  <div *ngIf="!modification" class="card-footer">
+    <button class="btn btn-primary" (click)="toggleModification()">Edit profile</button>
+  </div>
+</div>
