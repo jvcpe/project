@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { AlertService, TopicService } from '../../_services';
+import { AlertService, UserService } from '../../_services';
 import { User } from '../../_models';
 
 @Component({
@@ -12,7 +12,7 @@ export class ProfilComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private TopicService: TopicService,
+    private UserService: UserService,
     private sanitization: DomSanitizer,
     private cd: ChangeDetectorRef,
   ){
@@ -27,15 +27,15 @@ export class ProfilComponent implements OnInit {
   loading: boolean;
   image: SafeUrl;
   selectedFile: File;
+  modificationImage: string;
 
   ngOnInit(){
-    console.log(this.user);
-    this.image = this.sanitization.bypassSecurityTrustUrl('data:image/svg;base64,' + this.user.img);
+    this.image = this.sanitization.bypassSecurityTrustUrl(this.user.img);
     this.modificationForm = this.formBuilder.group({
         modificationProfilFirstName: [this.user.firstName, Validators.required],
         modificationProfilLastName: [this.user.lastName, Validators.required],
         modificationProfilUsername: [this.user.username, Validators.required],
-        modificationProfilImage: [null, Validators.required],
+        modificationProfilImage: ["", Validators.required],
     });
   }
 
@@ -50,16 +50,13 @@ export class ProfilComponent implements OnInit {
     const reader = new FileReader();
     if(event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      console.log(file);
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        this.modificationForm.patchValue({
-          file: reader.result
-       });
-
+        this.modificationImage = reader.result;
         // need to run CD since file load runs outside of zone
         this.cd.markForCheck();
-        console.log(file);
       };
     }
   }
@@ -74,12 +71,15 @@ export class ProfilComponent implements OnInit {
 
       this.loading = true;
 
-      const newUser = new User({
-        userName: this.f.modificationProfilUsername.value,
-        fisrtName: this.f.modificationProfilFirstName.value,
-        lastName: this.f.modificationProfilLastName.value,
-        img: this.f.modificationProfilImage.value,
-      })
+      const newUser: User = new User;
+
+      newUser._id = this.user._id;
+      newUser.username = this.f.modificationProfilUsername.value;
+      newUser.firstName = this.f.modificationProfilFirstName.value;
+      newUser.lastName = this.f.modificationProfilLastName.value;
+      newUser.img = this.modificationImage;
+
+      console.log(newUser);
 
       this.UserService.update(newUser)
           .subscribe(

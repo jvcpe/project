@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const fs = require('fs');
 
-const imgPath = 'C:/Users/jvercaemer/Desktop/project/back/images/smiley.svg';
+const imgPath = 'C:/Users/jvercaemer/Desktop/project/back/images/tortue.jpg';
 const schema = new Schema({
     username: { type: String, unique: true, required: true },
     hash: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     createdDate: { type: Date, default: Date.now },
-    img: { type: Buffer, default: fs.readFileSync(imgPath) },
+    img: { type: String, default: 'data:image/jpeg;base64,' + fs.readFileSync(imgPath) },
 });
 
 schema.set('toJSON', { virtuals: true });

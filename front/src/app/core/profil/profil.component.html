@@ -18,7 +18,7 @@
       <label for="modificationProfilImage">Image : </label>
       <input type="file" formControlName="modificationProfilImage" class="form-control form-group" (change)="onFileChanged($event)" />
       <div *ngIf="submitted && f.modificationProfilImage.errors" class="invalid-feedback">
-          <div *ngIf="f.modificationProfilFirstName.errors.required">A file is required</div>
+          <div *ngIf="f.modificationProfilImage.errors.required">A file is required</div>
       </div>
 
       <label for="modificationProfilFirstName">First Name : </label>
@@ -39,7 +39,7 @@
           <div *ngIf="f.modificationProfilUsername.errors.required">A username is required</div>
       </div>
 
-      <div *ngIf="modification" class="form-group">
+      <div class="form-group">
         <button class="btn btn-outline-warning" (click)="onModification()">
           Modify
         </button>
